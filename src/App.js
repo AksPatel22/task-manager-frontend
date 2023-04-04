@@ -5,6 +5,13 @@ import Welcome from "./components/Welcome/Welcome";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
-  return <Login></Login>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/welcome" element={<Welcome />} />
+      </Routes>
+    </Router>
+  );
 };
 export default App;

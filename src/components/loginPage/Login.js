@@ -1,22 +1,17 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { loginUser } from "../../actions/login";
-import { useSelector, useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../actions/authConstant";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [login, setLogin] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState({ msg: "", status: false });
   const [data, setData] = useState({});
-  const validateEmail = (email) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return true;
-    }
-  };
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleRegister = () => {
     setLogin(!login);
     setEmail("");
@@ -25,15 +20,8 @@ const Login = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateEmail(email)) {
-      if (login) {
-        setData({ email: email, password: password });
-      } else {
-        setData({ name: name, email: email, password: password });
-      }
-    } else {
-      setError({ ...error, msg: "enter correct email", status: true });
-    }
+    setData({ email: email, password: password });
+    dispatch(loginUser("login", data));
   };
   return (
     <>
