@@ -100,3 +100,22 @@ input:focus {
   outline: none;
   outline: 3px solid var(--primary-2);
 }
+.loader {
+  font-size: 2em;
+  color: var(--primary-1);
+}
+.hidden {
+  display: none;
+}
+.error-handler {
+  background-color: rgba(255, 0, 0, 0.5);
+  margin: 5px;
+  border-radius: 5px;
+  height: max-content;
+}
+.error-handler h4 {
+  color: var(--primary-1);
+  font-weight: 400;
+  text-align: center;
+  /* padding: 5px 0px; */
+}

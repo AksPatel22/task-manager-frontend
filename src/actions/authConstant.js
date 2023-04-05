@@ -5,27 +5,25 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const loginUser = (TYPE, Data) => {
+export const loginUser = (Data) => {
   return async (dispatch) => {
     dispatch({
-      type:
-        TYPE === "login"
-          ? authConstants.LOGIN_REQUEST
-          : authConstants.REGISTER_REQUEST,
+      type: authConstants.LOGIN_REQUEST,
     });
-    const response = await axios.post(
-      "https://task-manager-server-5gxe.onrender.com/api/v1/auth/login",
-      JSON.stringify(Data),
-      { headers }
-    );
+    let response = "";
+    try {
+      response = await axios.post(
+        "https://task-manager-server-5gxe.onrender.com/api/v1/auth/login",
+        JSON.stringify(Data),
+        { headers }
+      );
+    } catch (error) {
+      response = error.response;
+    }
     const { data, status, message } = response;
-    console.log(response);
     if (response.status === 200) {
       dispatch({
-        type:
-          TYPE === "login"
-            ? authConstants.LOGIN_SUCCESS
-            : authConstants.REGISTER_SUCCESS,
+        type: authConstants.LOGIN_SUCCESS,
         payload: {
           data,
           status,
@@ -33,16 +31,56 @@ export const loginUser = (TYPE, Data) => {
       });
     } else {
       dispatch({
-        type:
-          TYPE === "login"
-            ? authConstants.LOGIN_FAILURE
-            : authConstants.REGISTER_FAILURE,
+        type: authConstants.LOGIN_FAILURE,
         payload: {
-          message,
-          status,
-          error: response.data.error,
+          status: response.status,
+          error: response.data.msg,
         },
       });
     }
+  };
+};
+
+export const registerUser = (Data) => {
+  return async (dispatch) => {
+    dispatch({
+      type: authConstants.REGISTER_REQUEST,
+    });
+    let response = "";
+    try {
+      response = await axios.post(
+        "https://task-manager-server-5gxe.onrender.com/api/v1/auth/register",
+        JSON.stringify(Data),
+        { headers }
+      );
+    } catch (error) {
+      response = error.response;
+    }
+    const { data, status, message } = response;
+    if (response.status === 200) {
+      dispatch({
+        type: authConstants.REGISTER_SUCCESS,
+        payload: {
+          data,
+          status,
+        },
+      });
+    } else {
+      dispatch({
+        type: authConstants.REGISTER_FAILURE,
+        payload: {
+          status: response.status,
+          error: response.data.msg,
+        },
+      });
+    }
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: authConstants.LOGOUT_REQUEST,
+    });
   };
 };

@@ -1,28 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../actions/authConstant";
+import { loginUser, registerUser } from "../../actions/authConstant";
 import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
+  let auth = useSelector((state) => state.auth);
+  let loading = useSelector((state) => state.auth.loading);
+  let errorMsg = useSelector((state) => state.auth.error);
+
   const [login, setLogin] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState({});
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleRegister = () => {
     setLogin(!login);
     setEmail("");
     setName("");
     setPassword("");
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    setData({ email: email, password: password });
-    dispatch(loginUser("login", data));
+    if (login) {
+      dispatch(loginUser({ email, password }));
+    } else {
+      dispatch(registerUser({ name, email, password }));
+    }
   };
+  useEffect(() => {
+    if (auth.status === "success") {
+      navigate("/welcome", { replace: true });
+      console.log(auth.status);
+    }
+  }, [auth]);
+
   return (
     <>
       <div className="container">
@@ -57,7 +73,12 @@ const Login = () => {
                 className="login-btn"
                 onClick={handleSubmit}
               >
-                Log In
+                {!loading ? "Log In" : ""}
+                {loading ? (
+                  <i className="fa fa-spinner fa-spin loader"></i>
+                ) : (
+                  ""
+                )}
               </button>
               <p>
                 Click here to <span onClick={handleRegister}>Register</span>
@@ -101,6 +122,9 @@ const Login = () => {
               </p>
             </form>
           )}
+          <div className="error-handler">
+            <h4>{errorMsg}</h4>
+          </div>
         </div>
       </div>
     </>
