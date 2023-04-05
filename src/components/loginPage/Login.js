@@ -115,7 +115,12 @@ const Login = () => {
                 className="login-btn"
                 onClick={handleSubmit}
               >
-                Register
+                {!loading ? "Register" : ""}
+                {loading ? (
+                  <i className="fa fa-spinner fa-spin loader"></i>
+                ) : (
+                  ""
+                )}
               </button>
               <p>
                 Existing User? <span onClick={handleRegister}>Sign In</span>

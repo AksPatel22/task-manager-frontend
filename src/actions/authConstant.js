@@ -57,7 +57,7 @@ export const registerUser = (Data) => {
       response = error.response;
     }
     const { data, status, message } = response;
-    if (response.status === 200) {
+    if (response.status === 201) {
       dispatch({
         type: authConstants.REGISTER_SUCCESS,
         payload: {
