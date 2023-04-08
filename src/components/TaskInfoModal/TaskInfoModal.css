@@ -1,0 +1,122 @@
+@import "../../root.css";
+
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.253);
+}
+.modal-container {
+  background-color: var(--primary-1);
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+}
+.task-container {
+  margin: 40px;
+}
+.task-container > * {
+  padding: 5px;
+}
+.title {
+  text-transform: capitalize;
+}
+.close-btn {
+  margin: 10px 0px;
+  width: 30%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: var(--primary-4);
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.close-btn:hover {
+  background-color: var(--primary-5);
+}
+.cross-icon {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.btn-container {
+  display: flex;
+  justify-content: space-around;
+}
+.edit-btn {
+  display: block;
+  margin: 10px 0px;
+  width: 40%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: #28a745;
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.delete-btn {
+  display: block;
+  margin: 10px 0px;
+  width: 40%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: #dc3545;
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.delete-btn:hover {
+  background-color: #c82333;
+}
+.edit-btn:hover {
+  background-color: #218838;
+}
+.delete-btn-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-around;
+}
+.confirm {
+  display: block;
+  margin: 10px 0px;
+  width: 30%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: #dc3545;
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.confirm:hover {
+  background-color: #c82333;
+}
+.cancel {
+  display: block;
+  margin: 10px 0px;
+  width: 30%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: var(--primary-4);
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.cancel:hover {
+  background-color: var(--primary-5);
+}

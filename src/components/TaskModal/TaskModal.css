@@ -1,0 +1,128 @@
+@import "../../root.css";
+
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.253);
+}
+.modal-container {
+  background-color: var(--primary-1);
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+}
+.required {
+  text-decoration: none;
+  color: red;
+}
+.task-form-container form {
+  padding: 15px;
+}
+.description-input {
+  height: 4rem;
+}
+.task-form-container textarea {
+  width: 90%;
+  height: 5rem;
+  border: none;
+  resize: horizontal;
+  overflow: hidden;
+}
+.task-form-container p {
+  margin: 10px 0px;
+}
+select {
+  width: 20%;
+  height: 30px;
+}
+.create-task-btn {
+  display: block;
+  margin: 10px 0px;
+  width: 30%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: var(--primary-4);
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.edit-task-btn {
+  display: block;
+  margin: 10px 0px;
+  width: 30%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: #28a745;
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.cancel-task-btn {
+  display: block;
+  margin: 10px 0px;
+  width: 30%;
+  align-self: center;
+  height: 3rem;
+  border: none;
+  background-color: #dc3545;
+  color: var(--primary-1);
+  border-radius: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.create-task-btn:hover {
+  background-color: var(--primary-5);
+}
+.cancel-task-btn:hover {
+  background-color: #c82333;
+}
+.edit-task-btn:hover {
+  background-color: #218838;
+}
+.btn-container {
+  display: flex;
+  gap: 0.5rem;
+}
+.error {
+  background-color: rgba(255, 0, 0, 0.363);
+  text-align: center;
+  color: red;
+}
+.task-form-container input,
+.task-form-container textarea,
+.task-form-container select {
+  border: 2px solid var(--primary-4);
+}
+.task-form-container input:focus,
+.task-form-container textarea:focus,
+.task-form-container select:focus {
+  outline: none;
+  border: 3px solid var(--primary-4);
+}
+
+@media screen and (max-width: 850px) {
+  .modal-container {
+    width: 90%;
+    height: 90%;
+  }
+  select {
+    width: 5rem;
+  }
+  .btn-container {
+    flex-direction: column;
+  }
+  .btn-container button {
+    width: 50%;
+    font-size: 1.5rem;
+    /* align-items: flex-start; */
+  }
+}

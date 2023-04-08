@@ -1,0 +1,129 @@
+@import "../../root.css";
+
+.logout {
+  cursor: pointer;
+  display: flex;
+  font-size: larger;
+  gap: 5px;
+}
+.logout-icon {
+  font-size: 25px;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-5);
+  box-shadow: 0px 11px 20px 0px rgba(0, 0, 0, 0.4);
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60vw;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 15px;
+  color: var(--primary-1);
+}
+.heading-banner h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--primary-1);
+}
+.your-tasks {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: var(--primary-1);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.todays-task {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  margin-top: -1px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: var(--primary-1);
+}
+.create-task {
+  background-color: var(--primary-3);
+  border: none;
+  width: 7rem;
+  height: 3rem;
+  border-radius: 10px;
+  color: var(--primary-1);
+  font-size: 1.5rem;
+  transition: all 0.5s ease-out;
+  cursor: pointer;
+}
+.create-task:hover {
+  width: 10rem;
+  transition: all 0.5s ease-out;
+}
+.todays-task h2 {
+  margin-top: 8px;
+}
+.remaining-tasks {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  padding: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: -1px;
+  background-color: var(--primary-1);
+}
+.completed-tasks {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  margin-top: -3px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: var(--primary-1);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.single-task {
+  border-bottom: 2px solid black;
+  padding: 2px;
+  margin: 2px 0px;
+}
+.single-task > div > h3 {
+  cursor: pointer;
+}
+.task-info {
+  display: flex;
+  gap: 10px;
+}
+.edit-icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  color: #28a745;
+  cursor: pointer;
+}
+.delete-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #dc3545;
+}
+@media screen and (max-width: 850px) {
+  .main-container {
+    width: 90%;
+  }
+  .create-task:hover {
+    width: 7rem;
+    background-color: var(--primary-4);
+  }
+}

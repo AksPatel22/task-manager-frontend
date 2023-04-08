@@ -9,14 +9,38 @@ const Login = () => {
   let loading = useSelector((state) => state.auth.loading);
   let errorMsg = useSelector((state) => state.auth.error);
 
+  const [error, setError] = useState(errorMsg);
   const [login, setLogin] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const regex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const validateInputs = (email, password, name) => {
+    if (!regex.test(email)) {
+      setError("invalid email");
+      return;
+    }
+    if (login) {
+      if (email === "" || password === "") {
+        console.log("test");
+        setError("please provide all the details");
+        return;
+      }
+    } else {
+      if (email === "" || password === "" || name === "") {
+        console.log("test");
+        setError("please provide all the details");
+        return;
+      }
+    }
+    return true;
+  };
   const handleRegister = () => {
     setLogin(!login);
     setEmail("");
@@ -26,33 +50,41 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (login) {
-      dispatch(loginUser({ email, password }));
-    } else {
-      dispatch(registerUser({ name, email, password }));
+    if (validateInputs(email, password, name)) {
+      if (login) {
+        dispatch(loginUser({ email, password }));
+      } else {
+        dispatch(registerUser({ name, email, password }));
+      }
     }
   };
+
   useEffect(() => {
     if (auth.status === "success") {
-      navigate("/welcome", { replace: true });
-      console.log(auth.status);
+      navigate("/home", { replace: true });
     }
   }, [auth]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setError("");
+    }, 4000);
+  }, [error]);
+
   return (
     <>
-      <div className="container">
+      <div className="login-container">
         <div className="img-container"></div>
         <div className="form-container">
           <div className="form-description">
-            <h1>Welcome</h1>
+            <h1>TaskMaster</h1>
             <p>
               "Stay on top of your tasks with just a click - log in now to our
               task-manager app!"
             </p>
           </div>
           {login ? (
-            <form action="" noValidate>
+            <form action="" noValidate className="login-form">
               <input
                 type="email"
                 name=""
@@ -85,7 +117,7 @@ const Login = () => {
               </p>
             </form>
           ) : (
-            <form action="" noValidate>
+            <form action="" noValidate className="login-form">
               <input
                 type="text"
                 name=""
@@ -128,7 +160,7 @@ const Login = () => {
             </form>
           )}
           <div className="error-handler">
-            <h4>{errorMsg}</h4>
+            <h4>{error}</h4>
           </div>
         </div>
       </div>
