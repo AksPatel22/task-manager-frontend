@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 import { loginUser, registerUser } from "../../actions/authConstant";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -28,13 +28,11 @@ const Login = () => {
     }
     if (login) {
       if (email === "" || password === "") {
-        console.log("test");
         setError("please provide all the details");
         return;
       }
     } else {
       if (email === "" || password === "" || name === "") {
-        console.log("test");
         setError("please provide all the details");
         return;
       }
@@ -60,16 +58,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (auth.status === "success") {
+    if (localStorage.getItem("jwt")) {
       navigate("/home", { replace: true });
     }
   }, [auth]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setError("");
-    }, 4000);
-  }, [error]);
+    setError(errorMsg);
+  }, [errorMsg]);
 
   return (
     <>

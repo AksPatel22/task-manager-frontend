@@ -1,6 +1,10 @@
 import React, { useDebugValue, useEffect, useState } from "react";
 import "./TaskInfoModal.css";
-import { deleteTask, getTask } from "../../actions/taskConstant";
+import {
+  deleteTask,
+  getTask,
+  clearSingleTask,
+} from "../../actions/taskConstant";
 import { useSelector, useDispatch } from "react-redux";
 import { ImCross } from "react-icons/im";
 
@@ -16,6 +20,8 @@ const TaskInfoModal = ({ setShowTaskInfoModal, id, setShowModal }) => {
 
   const deletetask = () => {
     dispatch(deleteTask(id));
+    setShowTaskInfoModal(false);
+    dispatch(clearSingleTask());
   };
 
   useEffect(() => {
@@ -28,7 +34,10 @@ const TaskInfoModal = ({ setShowTaskInfoModal, id, setShowModal }) => {
         <div className="task-container">
           <ImCross
             className="cross-icon"
-            onClick={() => setShowTaskInfoModal(false)}
+            onClick={() => {
+              setShowTaskInfoModal(false);
+              dispatch(clearSingleTask());
+            }}
           ></ImCross>
           <h2 className="title">{singleTask.title}</h2>
           <p className="description">{singleTask.description}</p>

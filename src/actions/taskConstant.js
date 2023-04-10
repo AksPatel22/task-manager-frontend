@@ -57,6 +57,7 @@ export const getAllTask = () => {
       response = error.response;
     }
     const { data, status } = response;
+    console.log(response);
     if (response.status === 200) {
       dispatch({
         type: taskConstants.GET_ALL_TASK_SUCCESS,
@@ -90,9 +91,8 @@ export const getTask = (id) => {
 
 export const editTask = (Data, id) => {
   return async (dispatch) => {
-    console.log("test");
     dispatch({
-      type: taskConstants.GET_SINGLE_REQUEST,
+      type: taskConstants.UPDATE_SINGLE_REQUEST,
     });
     let response = "";
     try {
@@ -107,7 +107,7 @@ export const editTask = (Data, id) => {
     const { data, status } = response;
     if (response.status === 200) {
       dispatch({
-        type: taskConstants.GET_SINGLE_SUCCESS,
+        type: taskConstants.UPDATE_SINGLE_SUCCESS,
         payload: {
           data,
           status,
@@ -115,7 +115,7 @@ export const editTask = (Data, id) => {
       });
     } else {
       dispatch({
-        type: taskConstants.GET_SINGLE_FAILURE,
+        type: taskConstants.UPDATE_SINGLE_FAILURE,
         payload: {
           status: response.status,
           error: response.data.msg,
@@ -126,7 +126,6 @@ export const editTask = (Data, id) => {
 };
 
 export const deleteTask = (id) => {
-  console.log(id);
   return async (dispatch) => {
     dispatch({
       type: taskConstants.DELETE_SINGLE_REQUEST,
@@ -141,7 +140,6 @@ export const deleteTask = (id) => {
       response = error.response;
     }
     const { status } = response;
-    console.log(response);
     if (response.status === 200) {
       dispatch({
         type: taskConstants.DELETE_SINGLE_SUCCESS,
@@ -165,5 +163,11 @@ export const deleteTask = (id) => {
 export const clearSingleTask = () => {
   return async (dispatch) => {
     dispatch({ type: taskConstants.CLEAR_SINGLE_TASK });
+  };
+};
+
+export const clearData = () => {
+  return async (dispatch) => {
+    dispatch({ type: taskConstants.CLEAR_DATA });
   };
 };

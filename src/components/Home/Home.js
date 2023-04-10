@@ -7,18 +7,15 @@ import { FiLogOut } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
 import TaskModal from "../TaskModal/TaskModal";
 import TaskInfoModal from "../TaskInfoModal/TaskInfoModal";
-import { getAllTask, getTask, deleteTask } from "../../actions/taskConstant";
+import { getAllTask, getTask, clearData } from "../../actions/taskConstant";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 const Home = () => {
   let tasks = useSelector((state) => state.tasks);
-  let singleTask = useSelector((state) => state.singleTask);
   const [showModal, setShowModal] = useState(false);
   const [showTaskInfoModal, setShowTaskInfoModal] = useState(false);
-  const [completedTasks, setCompletedTasks] = useState([]);
   const [incompleteTasks, setIncompleteTasks] = useState([]);
-  const [currentTasks, setCurrentTasks] = useState([]);
-  const [laterTasks, setLaterTasks] = useState([]);
+  const [forgotTasks, setForgotTasks] = useState([]);
   const [id, setId] = useState("");
 
   const name = localStorage.getItem("name");
@@ -30,20 +27,7 @@ const Home = () => {
     setShowModal(!showModal);
   };
 
-  const filterTasks = (tasks) => {
-    setCompletedTasks(tasks.filter((task) => task.completed === "Completed"));
-    setIncompleteTasks(tasks.filter((task) => task.completed !== "Completed"));
-  };
-
-  const filterTasksFurther = (tasks) => {
-    const currentDate = new Date().toISOString().slice(0, 10);
-    setCurrentTasks(
-      tasks.filter((task) => task.deadline.slice(0, 10) === currentDate)
-    );
-    setLaterTasks(
-      tasks.filter((task) => task.deadline.slice(0, 10) > currentDate)
-    );
-  };
+  const currentDate = new Date().toISOString().slice(0, 10);
 
   const openTask = (id) => {
     setShowTaskInfoModal(true);
@@ -54,16 +38,15 @@ const Home = () => {
     if (!localStorage.getItem("jwt")) {
       navigate("/", { replace: true });
     }
-    dispatch(getAllTask());
   }, []);
 
   useEffect(() => {
-    filterTasks(tasks.allTasks);
-    filterTasksFurther(incompleteTasks);
-  }, [tasks]);
+    dispatch(getAllTask());
+  }, [localStorage.getItem("jwt")]);
 
   const logout = () => {
     dispatch(logoutUser());
+    dispatch(clearData());
     localStorage.removeItem("jwt");
     localStorage.removeItem("name");
     navigate("/", { replace: true });
@@ -77,7 +60,6 @@ const Home = () => {
   const deletetask = (id) => {
     setShowTaskInfoModal(true);
     setId(id);
-    // dispatch(deleteTask(id));
   };
 
   return (
@@ -107,7 +89,47 @@ const Home = () => {
       <div className="todays-task">
         <h2> Complete By Today</h2>
         <div className="todays-task-container">
-          {currentTasks.map((task) => {
+          {tasks.allTasks
+            .filter((task) => task.completed !== "Completed")
+            .filter((task) => task.deadline.slice(0, 10) === currentDate)
+            .map((task) => {
+              return (
+                <div className="single-task" key={task._id}>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h3 onClick={() => openTask(task._id)}>{task.title}</h3>
+                    <div>
+                      <AiOutlineEdit
+                        className="edit-icon"
+                        onClick={() => editTask(task._id)}
+                      ></AiOutlineEdit>
+                      <AiOutlineDelete
+                        className="delete-icon"
+                        onClick={() => deletetask(task._id)}
+                      ></AiOutlineDelete>
+                    </div>
+                  </div>
+                  <div className="task-info">
+                    <p>
+                      <b> Due:</b> {task.deadline.slice(0, 10)}
+                    </p>
+                    <p>
+                      <b> Status: </b>
+                      {task.completed}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+      <div className="remaining-tasks">
+        <h2>Remaining Tasks</h2>
+        {tasks.allTasks
+          .filter((task) => task.completed !== "Completed")
+          .filter((task) => task.deadline.slice(0, 10) > currentDate)
+          .map((task) => {
             return (
               <div className="single-task" key={task._id}>
                 <div
@@ -137,76 +159,82 @@ const Home = () => {
               </div>
             );
           })}
-        </div>
-      </div>
-      <div className="remaining-tasks">
-        <h2>Remaining Tasks</h2>
-        {laterTasks.map((task) => {
-          return (
-            <div className="single-task" key={task._id}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <h3 onClick={() => openTask(task._id)}>{task.title}</h3>
-                <div>
-                  <AiOutlineEdit
-                    className="edit-icon"
-                    onClick={() => editTask(task._id)}
-                  ></AiOutlineEdit>
-                  <AiOutlineDelete
-                    className="delete-icon"
-                    onClick={() => deletetask(task._id)}
-                  ></AiOutlineDelete>
-                </div>
-              </div>
-              <div className="task-info">
-                <p>
-                  <b> Due:</b> {task.deadline.slice(0, 10)}
-                </p>
-                <p>
-                  <b> Status: </b>
-                  {task.completed}
-                </p>
-              </div>
-            </div>
-          );
-        })}
       </div>
       <div className="completed-tasks">
         <h2>Completed Tasks</h2>
-        {completedTasks.map((task) => {
-          return (
-            <div className="single-task" key={task._id}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <h3
-                  style={{ textDecorationLine: "line-through" }}
-                  onClick={() => openTask(task._id)}
+        {tasks.allTasks
+          .filter((task) => task.completed === "Completed")
+          .map((task) => {
+            return (
+              <div className="single-task" key={task._id}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  {task.title}
-                </h3>
-                <div>
-                  <AiOutlineEdit
-                    className="edit-icon"
-                    onClick={() => editTask(task._id)}
-                  ></AiOutlineEdit>
-                  <AiOutlineDelete
-                    className="delete-icon"
-                    onClick={() => deletetask(task._id)}
-                  ></AiOutlineDelete>
+                  <h3
+                    style={{ textDecorationLine: "line-through" }}
+                    onClick={() => openTask(task._id)}
+                  >
+                    {task.title}
+                  </h3>
+                  <div>
+                    <AiOutlineEdit
+                      className="edit-icon"
+                      onClick={() => editTask(task._id)}
+                    ></AiOutlineEdit>
+                    <AiOutlineDelete
+                      className="delete-icon"
+                      onClick={() => deletetask(task._id)}
+                    ></AiOutlineDelete>
+                  </div>
+                </div>
+                <div className="task-info">
+                  <p>
+                    <b> Due:</b> {task.deadline.slice(0, 10)}
+                  </p>
+                  <p>
+                    <b> Status: </b>
+                    {task.completed}
+                  </p>
                 </div>
               </div>
-              <div className="task-info">
-                <p>
-                  <b> Due:</b> {task.deadline.slice(0, 10)}
-                </p>
-                <p>
-                  <b> Status: </b>
-                  {task.completed}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
-      {incompleteTasks.length <= 0 && (
+      {forgotTasks.length > 0 && (
+        <div className="forgot-tasks">
+          <h2>You Forgot to complete these tasks</h2>
+          {tasks.allTasks
+            .filter((task) => task.completed !== "Completed")
+            .filter((task) => task.deadline.slice(0, 10) < currentDate)
+            .map((task) => {
+              return (
+                <div className="single-task" key={task._id}>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h3 onClick={() => openTask(task._id)}>{task.title}</h3>
+                    <div>
+                      <AiOutlineDelete
+                        className="delete-icon"
+                        onClick={() => deletetask(task._id)}
+                      ></AiOutlineDelete>
+                    </div>
+                  </div>
+                  <div className="task-info">
+                    <p>
+                      <b> Due:</b> {task.deadline.slice(0, 10)}
+                    </p>
+                    <p>
+                      <b> Status: </b>
+                      {task.completed}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      )}
+      {incompleteTasks.length === 0 && (
         <div className="heading-banner">
           <h1>
             Congratulations! You have completed all your tasks. Keep up the

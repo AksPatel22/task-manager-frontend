@@ -37,9 +37,10 @@ const TaskModal = ({ setShowModal }) => {
       setShowModal(false);
       if (action === "create") {
         dispatch(createTask(formData));
+      } else {
+        dispatch(editTask(formData, singleTask._id));
       }
-      dispatch(editTask(formData, singleTask._id));
-      dispatch(getAllTask());
+      // dispatch(getAllTask());
     } else {
       setErrorMsg("deadline should be greater than or equal than current date");
     }
@@ -66,13 +67,22 @@ const TaskModal = ({ setShowModal }) => {
     dispatch(clearSingleTask());
   };
 
+  const changeDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear().toString();
+
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
     setAction("create");
     if (singleTask.title) {
       setFormData({
         title: singleTask.title,
         description: singleTask.description,
-        deadline: "",
+        deadline: changeDate(singleTask.deadline),
         completed: singleTask.completed,
       });
       setAction("edit");

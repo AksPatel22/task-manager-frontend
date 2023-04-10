@@ -9,7 +9,7 @@
 .modal-container {
   background-color: var(--primary-1);
   width: 80%;
-  height: 80%;
+  height: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -108,6 +108,12 @@ select {
   outline: none;
   border: 3px solid var(--primary-4);
 }
+.date-input {
+  width: 8rem;
+}
+.status-input {
+  width: 8rem;
+}
 
 @media screen and (max-width: 850px) {
   .modal-container {
@@ -118,7 +124,7 @@ select {
     width: 5rem;
   }
   .btn-container {
-    flex-direction: column;
+    flex-direction: row;
   }
   .btn-container button {
     width: 50%;

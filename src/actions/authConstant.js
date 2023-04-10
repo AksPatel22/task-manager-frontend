@@ -21,10 +21,10 @@ export const loginUser = (Data) => {
       response = error.response;
     }
     const { data, status, message } = response;
-    console.log(response);
     if (response.status === 200) {
       localStorage.setItem("jwt", response.data.token);
       localStorage.setItem("name", response.data.user.name);
+      console.log("test");
       dispatch({
         type: authConstants.LOGIN_SUCCESS,
         payload: {

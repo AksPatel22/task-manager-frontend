@@ -12,12 +12,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case authConstants.LOGOUT_REQUEST:
-      state = {
-        ...state,
-        status: "false",
-        loading: false,
-        error: "",
-      };
+      state = initialState;
       break;
     case authConstants.LOGIN_REQUEST:
       state = {

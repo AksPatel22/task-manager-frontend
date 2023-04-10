@@ -24,6 +24,7 @@ export default (state = initialState, action) => {
         status: "success",
         loading: false,
         error: "",
+        allTasks: [...state.allTasks, action.payload.data.task],
       };
       break;
     case taskConstants.CREATE_SINGLE_FAILURE:
@@ -82,7 +83,6 @@ export default (state = initialState, action) => {
       };
       break;
     case taskConstants.UPDATE_SINGLE_SUCCESS:
-      console.log(action.payload.data.task);
       let specificTask = state.allTasks.find(
         (item) => item._id === action.payload.data.task._id
       );
@@ -124,6 +124,9 @@ export default (state = initialState, action) => {
       state = {
         ...state,
       };
+      break;
+    case taskConstants.CLEAR_DATA:
+      state = initialState;
       break;
     default:
       state = { ...state };
