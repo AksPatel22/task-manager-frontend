@@ -136,6 +136,7 @@
     width: 90%;
     position: relative;
     transform: translate(-50%, 0%);
+    min-height: 90vh;
   }
   .create-task:hover {
     width: 7rem;
