@@ -14,8 +14,7 @@ const Home = () => {
   let tasks = useSelector((state) => state.tasks);
   const [showModal, setShowModal] = useState(false);
   const [showTaskInfoModal, setShowTaskInfoModal] = useState(false);
-  const [incompleteTasks, setIncompleteTasks] = useState([]);
-  const [forgotTasks, setForgotTasks] = useState([]);
+  const [forgotTasks] = useState([]);
   const [id, setId] = useState("");
 
   const name = localStorage.getItem("name");
@@ -37,12 +36,10 @@ const Home = () => {
   useEffect(() => {
     if (!localStorage.getItem("jwt")) {
       navigate("/", { replace: true });
+    } else {
+      dispatch(getAllTask(localStorage.getItem("jwt")));
     }
   }, []);
-
-  useEffect(() => {
-    dispatch(getAllTask());
-  }, [localStorage.getItem("jwt")]);
 
   const logout = () => {
     dispatch(logoutUser());
@@ -87,7 +84,7 @@ const Home = () => {
         </button>
       </div>
       <div className="todays-task">
-        <h2> Complete By Today</h2>
+        <h2> Complete By Today :-</h2>
         <div className="todays-task-container">
           {tasks.allTasks
             .filter((task) => task.completed !== "Completed")
@@ -125,7 +122,7 @@ const Home = () => {
         </div>
       </div>
       <div className="remaining-tasks">
-        <h2>Remaining Tasks</h2>
+        <h2>Remaining Tasks :-</h2>
         {tasks.allTasks
           .filter((task) => task.completed !== "Completed")
           .filter((task) => task.deadline.slice(0, 10) > currentDate)
@@ -161,7 +158,7 @@ const Home = () => {
           })}
       </div>
       <div className="completed-tasks">
-        <h2>Completed Tasks</h2>
+        <h2>Completed Tasks :-</h2>
         {tasks.allTasks
           .filter((task) => task.completed === "Completed")
           .map((task) => {
@@ -202,7 +199,7 @@ const Home = () => {
       </div>
       {forgotTasks.length > 0 && (
         <div className="forgot-tasks">
-          <h2>You Forgot to complete these tasks</h2>
+          <h2>You Forgot to complete these tasks :-</h2>
           {tasks.allTasks
             .filter((task) => task.completed !== "Completed")
             .filter((task) => task.deadline.slice(0, 10) < currentDate)
@@ -234,7 +231,8 @@ const Home = () => {
             })}
         </div>
       )}
-      {incompleteTasks.length === 0 && (
+      {tasks.allTasks.filter((task) => task.completed !== "Completed")
+        .length === 0 && (
         <div className="heading-banner">
           <h1>
             Congratulations! You have completed all your tasks. Keep up the

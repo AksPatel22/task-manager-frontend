@@ -24,7 +24,6 @@ export const loginUser = (Data) => {
     if (response.status === 200) {
       localStorage.setItem("jwt", response.data.token);
       localStorage.setItem("name", response.data.user.name);
-      console.log("test");
       dispatch({
         type: authConstants.LOGIN_SUCCESS,
         payload: {

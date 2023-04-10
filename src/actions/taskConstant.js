@@ -1,7 +1,7 @@
 import axios from "axios";
 import { taskConstants } from "./constants";
 
-const headers = {
+let headers = {
   "Content-Type": "application/json",
   Authorization: `Bearer ${localStorage.getItem("jwt")}`,
 };
@@ -42,7 +42,11 @@ export const createTask = (Data) => {
   };
 };
 
-export const getAllTask = () => {
+export const getAllTask = (Data) => {
+  headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+  };
   return async (dispatch) => {
     dispatch({
       type: taskConstants.GET_ALL_TASK_REQUEST,
@@ -51,13 +55,14 @@ export const getAllTask = () => {
     try {
       response = await axios.get(
         "https://task-manager-server-5gxe.onrender.com/api/v1/tasks",
-        { headers }
+        {
+          headers,
+        }
       );
     } catch (error) {
       response = error.response;
     }
     const { data, status } = response;
-    console.log(response);
     if (response.status === 200) {
       dispatch({
         type: taskConstants.GET_ALL_TASK_SUCCESS,
